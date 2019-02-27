@@ -1,0 +1,2 @@
+# Slack-Emojis
+Slack emojis
