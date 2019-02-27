@@ -1,0 +1,31 @@
+version: 2
+mergeable:
+  - when: pull_request.*, issues.*
+    validate:
+      - do: title
+        no_empty:
+          enabled: true
+          message: 'Please add a title...'
+        must_exclude:
+          regex: ^\[WIP\]
+      - do: label
+        must_exclude:
+          regex: 'wip'
+      - do: stale
+        days: 14
+        message: 'This is PR getting stale. Please follow up!  This is a friendly reminder to please resolve it. :-)'
+        type: pull_request, issues
+
+  - when: pull_request.*
+    validate:
+      - do: approvals
+        min:
+          count: 1
+          message: 'Waiting on approvals... '
+        required:
+          reviewers: [ kevnm67 ]
+    # pass:
+    #   - do: comment
+    #     payload:
+    #       body: >
+    #         Heads up.
