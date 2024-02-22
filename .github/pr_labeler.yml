@@ -1,0 +1,6 @@
+---
+enhancement: ['feature/*', 'feat/*']
+fix: ['fix/*', 'hotfix/*', 'bug/*', 'bugfix/*']
+chore: chore/*
+dependencies: ['dependabot/*', 'renovate/*', 'deps/*']
+documentation: ['doc/*', 'docs/*', 'documentation/*']
