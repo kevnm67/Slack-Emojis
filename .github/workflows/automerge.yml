@@ -36,7 +36,7 @@ jobs:
           echo $EVENT_CONTEXT
           
       - name: Automerge PR
-        uses: pascalgn/automerge-action@v0.16.2
+        uses: pascalgn/automerge-action@v0.16.4
         if: >-
           github.event.issue.pull_request &&
           contains(github.event.pull_request.labels.*.name, 'automerge') &&
