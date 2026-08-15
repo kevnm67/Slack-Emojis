@@ -1,4 +1,4 @@
-# Auto-label PRs based on changed files
+# Auto-label PRs based on changed files (v7 format)
 dependencies:
   - changed-files:
     - any-glob-to-any-file:
@@ -10,7 +10,6 @@ dependencies:
       - 'package.json'
       - 'package-lock.json'
       - 'yarn.lock'
-      - '.github/workflows/**'
 
 github-actions:
   - changed-files:
