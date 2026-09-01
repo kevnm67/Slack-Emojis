@@ -6,7 +6,9 @@ __pycache__/
 .venv/
 .coverage
 coverage.xml
-.qlty/logs/
-.qlty/out/
-.qlty/results/
-.qlty/plugin_cachedir/
+# qlty writes these as symlinks, so a trailing-slash directory pattern
+# does not match them.
+.qlty/logs
+.qlty/out
+.qlty/results
+.qlty/plugin_cachedir
