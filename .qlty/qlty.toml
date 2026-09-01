@@ -1,0 +1,10 @@
+config_version = "0"
+
+[[source]]
+name = "default"
+
+[[plugin]]
+name = "ruff"
+
+[[plugin]]
+name = "bandit"

@@ -73,10 +73,10 @@ def download_emoji(name: str, url: str, dest: Path) -> Path:
 
 
 def run_update_readme() -> None:
-    import runpy
+    from slack_emojis.update_emojis import generate_readme, generate_table
 
-    sys.argv = ["update_emojis.py"]
-    runpy.run_path(str(REPO_ROOT / "scripts" / "update_emojis.py"), run_name="__main__")
+    readme_path = REPO_ROOT / "README.md"
+    readme_path.write_text(generate_readme(generate_table()))
 
 
 def main() -> int:

@@ -13,10 +13,20 @@ Emoji's commonly used for Slack, Jira, etc.
 
 <!-- /TOC -->
 
+See the [wiki](https://github.com/kevnm67/Slack-Emojis/wiki) for architecture and setup docs.
+
 ## Updating the table
 
-The [python script](./scripts/update_emojis.py) will automatically generate
-the readme with an updated table of emojis found in the `Emojis` directory.
+```bash
+make setup   # create venv, install dev deps, install pre-commit hooks
+make build   # regenerate this table from Emojis/
+SLACK_TOKEN=xoxp-... make fetch  # or: .venv/bin/slack-emojis-fetch
+```
+
+[`src/slack_emojis/update_emojis.py`](./src/slack_emojis/update_emojis.py) scans the `Emojis/`
+directory, sanitizes filenames to lowercase snake_case, and regenerates the table below.
+[`src/slack_emojis/fetch_slack_emojis.py`](./src/slack_emojis/fetch_slack_emojis.py) pulls custom
+emojis from a Slack workspace via `emoji.list`, then chains into the same regeneration.
 
 ## Emojis
 

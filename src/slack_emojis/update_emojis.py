@@ -2,7 +2,9 @@
 import argparse
 import os
 import re
+from pathlib import Path
 
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 EMOJI_IMAGE_WIDTH = 28
 
 
@@ -18,7 +20,7 @@ def sanitize_name(stem: str) -> str:
 def get_emoji_list():
     # Get a sorted list of emojis found in the Emojis directory, renaming any
     # file in place whose name isn't already lowercase snake_case.
-    path = os.path.join(os.path.dirname(__file__), "../Emojis")
+    path = os.path.join(REPO_ROOT, "Emojis")
     files = os.listdir(path)
 
     renamed = []
@@ -34,7 +36,7 @@ def get_emoji_list():
 
 def generate_readme(table):
     # Regerate the README.md file with the updated emoji table
-    readme_path = os.path.join(os.path.dirname(__file__), "../README.md")
+    readme_path = os.path.join(REPO_ROOT, "README.md")
 
     with open(readme_path) as file:
         current_readme = file.read()
@@ -67,23 +69,24 @@ def generate_table():
     return "\n".join(table)
 
 
-def main(dry_run):
-    readme = generate_readme(generate_table())
-    readme_path = os.path.join(os.path.dirname(__file__), "../README.md")
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Regenerate the emoji table in README.md")
+    parser.add_argument(
+        "--dry-run", help="Print updated readme to console", action="store_true", default=False
+    )
+    args = parser.parse_args()
 
-    if dry_run:
+    readme = generate_readme(generate_table())
+    readme_path = os.path.join(REPO_ROOT, "README.md")
+
+    if args.dry_run:
         print(readme)
     else:
         with open(readme_path, "w") as file:
             file.write(readme)
 
+    return 0
+
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="")
-    parser.add_argument(
-        "--dry-run", help="Print updated readme to console", action="store_true", default=False
-    )
-
-    args = parser.parse_args()
-
-    main(dry_run=args.dry_run)
+    raise SystemExit(main())
