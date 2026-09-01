@@ -1,5 +1,9 @@
 # Slack-Emojis
 
+[![CI](https://github.com/kevnm67/Slack-Emojis/actions/workflows/ci.yml/badge.svg)](https://github.com/kevnm67/Slack-Emojis/actions/workflows/ci.yml)
+[![Maintainability](https://qlty.sh/gh/kevnm67/projects/Slack-Emojis/maintainability.svg)](https://qlty.sh/gh/kevnm67/projects/Slack-Emojis)
+[![Code Coverage](https://qlty.sh/gh/kevnm67/projects/Slack-Emojis/coverage.svg)](https://qlty.sh/gh/kevnm67/projects/Slack-Emojis)
+
 Emoji's commonly used for Slack, Jira, etc.
 
 ## Table of contents
@@ -48,8 +52,8 @@ emojis from a Slack workspace via `emoji.list`, then chains into the same regene
 | circleci_fail | <img src="./Emojis/circleci_fail.png" alt="circleci_fail" width="28"> |
 | circleci_pass | <img src="./Emojis/circleci_pass.png" alt="circleci_pass" width="28"> |
 | claude | <img src="./Emojis/claude.png" alt="claude" width="28"> |
-| claude_code | <img src="./Emojis/claude_code.gif" alt="claude_code" width="28"> |
 | claude_code | <img src="./Emojis/claude_code.png" alt="claude_code" width="28"> |
+| claude_code_animated | <img src="./Emojis/claude_code_animated.gif" alt="claude_code_animated" width="28"> |
 | claude_code_incognito | <img src="./Emojis/claude_code_incognito.png" alt="claude_code_incognito" width="28"> |
 | claude_dancing | <img src="./Emojis/claude_dancing.gif" alt="claude_dancing" width="28"> |
 | claude_fail | <img src="./Emojis/claude_fail.png" alt="claude_fail" width="28"> |
@@ -77,7 +81,7 @@ emojis from a Slack workspace via `emoji.list`, then chains into the same regene
 | github_octogirl | <img src="./Emojis/github_octogirl.png" alt="github_octogirl" width="28"> |
 | githug | <img src="./Emojis/githug.png" alt="githug" width="28"> |
 | grafana | <img src="./Emojis/grafana.png" alt="grafana" width="28"> |
-| hashicorp_terraform | <img src="./Emojis/hashicorp_terraform.svg" alt="hashicorp_terraform" width="28"> |
+| hashicorp_terraform | <img src="./Emojis/hashicorp_terraform.png" alt="hashicorp_terraform" width="28"> |
 | homer | <img src="./Emojis/homer.gif" alt="homer" width="28"> |
 | im_a_developer_ralph | <img src="./Emojis/im_a_developer_ralph.png" alt="im_a_developer_ralph" width="28"> |
 | jaill | <img src="./Emojis/jaill.png" alt="jaill" width="28"> |

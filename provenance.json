@@ -1,0 +1,15 @@
+{
+  "_comment": "Origin and license of each emoji. Required for emoji added to this public repo, since committing a file redistributes it. See .claude/skills/emoji-authoring/references/emoji-sources.md",
+  "_schema": {
+    "source": "URL or project name the image came from",
+    "license": "SPDX id, license name, or 'fan-art-unlicensed'",
+    "attribution": "credit line if the license requires one, else null"
+  },
+  "emoji": {
+    "hashicorp_terraform": {
+      "source": "https://www.hashicorp.com/brand",
+      "license": "trademark-brand-asset",
+      "attribution": "HashiCorp Terraform logo, used as a product reference"
+    }
+  }
+}

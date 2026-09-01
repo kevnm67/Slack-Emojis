@@ -16,5 +16,16 @@ jobs:
       - run: pip install -e ".[dev]"
       - run: python -m ruff check src/ tests/
       - run: python -m ruff format --check src/ tests/
-      - run: python -m pytest tests/ -v
+      - run: python -m pytest tests/ -v --cov=slack_emojis --cov-report=xml
       - run: python -m slack_emojis.update_emojis --dry-run
+
+      # Every emoji must stay a valid, uploadable Slack image with a filename
+      # git and GitHub agree on. Catches the case-only-rename breakage class.
+      - run: python -m slack_emojis.emoji_spec --audit
+
+      - name: Upload coverage to qlty
+        if: ${{ !cancelled() }}
+        uses: qltysh/qlty-action/coverage@v2.3.0
+        with:
+          token: ${{ secrets.COVERAGE_TOKEN }}
+          files: coverage.xml

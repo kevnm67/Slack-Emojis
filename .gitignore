@@ -4,3 +4,11 @@ __pycache__/
 .ruff_cache/
 *.egg-info/
 .venv/
+.coverage
+coverage.xml
+# qlty writes these as symlinks, so a trailing-slash directory pattern
+# does not match them.
+.qlty/logs
+.qlty/out
+.qlty/results
+.qlty/plugin_cachedir

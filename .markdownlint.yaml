@@ -1,0 +1,14 @@
+# The emoji table is generated and needs <img width=> to size thumbnails,
+# so inline HTML is required by design rather than a smell.
+MD033: false
+# Prose wraps at 100 to match the Python line length; tables and generated
+# rows legitimately exceed it.
+MD013:
+  line_length: 100
+  tables: false
+  code_blocks: false
+# Generated table rows use a consistent style that MD060 misreads.
+MD060: false
+# Agent/skill files and the PR template open with frontmatter or prose by
+# design, not an H1.
+MD041: false

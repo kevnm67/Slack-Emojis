@@ -9,5 +9,6 @@
 <!-- Explain the reasoning behind any architectural changes. -->
 <!-- Highlight any new functionality. -->
 
-## Checklist:
+## Checklist
+
 - [ ] Comments/documentation?
