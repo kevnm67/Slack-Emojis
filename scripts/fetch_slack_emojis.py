@@ -32,7 +32,9 @@ def fetch_emoji_list(token: str) -> dict[str, str]:
 
     if not payload.get("ok"):
         error = payload.get("error", "unknown_error")
-        raise RuntimeError(f"Slack API returned an error: {error}. Verify the token has the emoji:read scope.")
+        raise RuntimeError(
+            f"Slack API returned an error: {error}. Verify the token has the emoji:read scope."
+        )
 
     return payload["emoji"]
 
@@ -114,7 +116,10 @@ def main() -> int:
     args = parser.parse_args()
 
     if not args.token:
-        parser.error("No Slack token provided. Pass --token or set SLACK_TOKEN to a token with the emoji:read scope.")
+        parser.error(
+            "No Slack token provided. Pass --token or set SLACK_TOKEN "
+            "to a token with the emoji:read scope."
+        )
 
     print("Fetching emoji list from Slack...")
     emoji = fetch_emoji_list(args.token)
