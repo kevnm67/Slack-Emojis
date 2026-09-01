@@ -6,3 +6,7 @@ __pycache__/
 .venv/
 .coverage
 coverage.xml
+.qlty/logs/
+.qlty/out/
+.qlty/results/
+.qlty/plugin_cachedir/
