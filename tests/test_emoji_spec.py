@@ -144,7 +144,9 @@ def test_copyright_silent_for_recorded_provenance(make_image, monkeypatch, tmp_p
     from slack_emojis import emoji_spec
 
     provenance = tmp_path / "provenance.json"
-    provenance.write_text(json.dumps({"emoji": {"safe_name": {"source": "x", "license": "MIT"}}}))
+    provenance.write_text(
+        json.dumps({"emoji": {"safe_name": {"source": "x", "license": "MIT"}}})
+    )
     monkeypatch.setattr(emoji_spec, "PROVENANCE_FILE", provenance)
 
     report = emoji_spec.validate(make_image(), name="safe_name")

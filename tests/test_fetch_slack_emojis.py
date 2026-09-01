@@ -61,7 +61,9 @@ class _FakeResponse:
 
 
 def test_fetch_emoji_list_success():
-    payload = json.dumps({"ok": True, "emoji": {"parrot": "https://x/parrot.gif"}}).encode()
+    payload = json.dumps(
+        {"ok": True, "emoji": {"parrot": "https://x/parrot.gif"}}
+    ).encode()
     with patch("urllib.request.urlopen", return_value=_FakeResponse(payload)):
         assert fetch_emoji_list("xoxp-fake") == {"parrot": "https://x/parrot.gif"}
 
@@ -78,7 +80,9 @@ def test_fetch_emoji_list_api_error():
 
 
 def test_download_emoji_writes_file(tmp_path):
-    with patch("urllib.request.urlopen", return_value=_FakeResponse(b"binary-image-data")):
+    with patch(
+        "urllib.request.urlopen", return_value=_FakeResponse(b"binary-image-data")
+    ):
         target = download_emoji("parrot", "https://x/parrot.gif", tmp_path)
     assert target == tmp_path / "parrot.gif"
     assert target.read_bytes() == b"binary-image-data"

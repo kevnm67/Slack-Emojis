@@ -30,7 +30,8 @@ dev = [
 where = ["src"]
 
 [tool.ruff]
-line-length = 100
+# Ruff's default (88). qlty runs its own ruff that does not read this file,
+# so anything else here makes qlty fmt disagree with pre-commit and CI.
 target-version = "py314"
 
 [tool.ruff.lint]

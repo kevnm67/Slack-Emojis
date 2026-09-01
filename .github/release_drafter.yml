@@ -2,62 +2,84 @@
 name-template: v$RESOLVED_VERSION
 tag-template: v$RESOLVED_VERSION
 categories:
-    - title: 🚀 Features
-      labels:
-          - 'type: feature'
-          - 'type: enhancement'
-    - title: 🐛 Bug Fixes
-      labels:
-          - 'type: bug'
-    - title: 🩺 Maintenance
-      labels:
-          - 'type: chore'
-          - 'type: security'
-          - CI/CD
-          - 'type: maintenance'
-    - title: 📝 Documentation
-      label: 'type: documentation'
-    - title: Dependency Updates
-      label: 'type: dependencies'
+  - title: 🚀 Features
+    labels:
+      - feat
+      - feature
+      - enhancement
+  - title: 🐛 Bug Fixes
+    labels:
+      - bug
+  - title: 🩺 Maintenance
+    labels:
+      - chore
+      - refactor
+      - test
+      - ci
+  - title: 📝 Documentation
+    labels:
+      - docs
+      - documentation
+  - title: 📦 Dependency Updates
+    labels:
+      - dependencies
+      - github-actions
 exclude-labels:
-    - skip-changelog
+  - skip-changelog
 autolabeler:
-  - label: 'chore'
-    files:
-      - '*.md'
+  - label: feat
     branch:
-      - '/docs{0,1}\/.+/'
-  - label: 'bug'
+      - '/feat\/.+/'
+  - label: bug
     branch:
       - '/fix\/.+/'
     title:
-      - '/fix/i'
-  - label: 'enhancement'
+      - '/^fix/i'
+  - label: docs
     branch:
-      - '/feature\/.+/'
-    body:
-      - '/JIRA-[0-9]{1,4}/'
+      - '/docs\/.+/'
+    files:
+      - '*.md'
+  - label: chore
+    branch:
+      - '/chore\/.+/'
+  - label: refactor
+    branch:
+      - '/refactor\/.+/'
+  - label: test
+    branch:
+      - '/test\/.+/'
+    files:
+      - 'tests/**'
+  - label: ci
+    files:
+      - '.github/workflows/**'
+      - '.qlty/**'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 version-resolver:
-    major:
-        labels:
-            - major
-    minor:
-        labels:
-            - minor
-            - 'type: feature'
-            - 'type: enhancement'
-    patch:
-        labels:
-            - patch
-            - 'type: dependencies'
-            - 'type: documentation'
-            - 'type: maintenance'
-            - 'type: security'
-            - 'type: bug'
-            - 'type: chore'
-    default: patch
+  major:
+    labels:
+      - major
+  minor:
+    labels:
+      - minor
+      - feat
+      - feature
+      - enhancement
+  patch:
+    labels:
+      - patch
+      - bug
+      - chore
+      - ci
+      - dependencies
+      - docs
+      - documentation
+      - github-actions
+      - refactor
+      - test
+  default: patch
 template: |
-    ## What’s Changed
+  ## What's Changed
 
-    $CHANGES
+  $CHANGES

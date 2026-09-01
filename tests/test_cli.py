@@ -17,10 +17,14 @@ def repo(tmp_path, monkeypatch):
     Image.new("RGBA", (128, 128), (0, 255, 0, 255)).save(emoji_dir / "Shouty Name.png")
 
     readme = tmp_path / "README.md"
-    readme.write_text("# Title\n\n## Emojis\n\nold table\n\n## Attribution\n\ncredits\n")
+    readme.write_text(
+        "# Title\n\n## Emojis\n\nold table\n\n## Attribution\n\ncredits\n"
+    )
 
     provenance = tmp_path / "provenance.json"
-    provenance.write_text(json.dumps({"emoji": {"parrot": {"source": "x", "license": "MIT"}}}))
+    provenance.write_text(
+        json.dumps({"emoji": {"parrot": {"source": "x", "license": "MIT"}}})
+    )
 
     monkeypatch.setattr(update_emojis, "REPO_ROOT", tmp_path)
     monkeypatch.setattr(emoji_spec, "EMOJI_DIR", emoji_dir)
@@ -76,7 +80,9 @@ def test_validate_cli_fails_a_duplicate(repo, monkeypatch, capsys):
 
 
 def test_validate_cli_json_output_is_parseable(repo, monkeypatch, capsys):
-    monkeypatch.setattr("sys.argv", ["emoji_spec", str(repo / "Emojis" / "parrot.png"), "--json"])
+    monkeypatch.setattr(
+        "sys.argv", ["emoji_spec", str(repo / "Emojis" / "parrot.png"), "--json"]
+    )
     emoji_spec.main()
 
     payload = json.loads(capsys.readouterr().out)
@@ -101,7 +107,9 @@ def test_committing_flag_blocks_on_missing_provenance(repo, monkeypatch):
 def test_strict_flag_turns_warnings_into_failures(repo, monkeypatch):
     small = repo / "small.png"
     Image.new("RGBA", (32, 32), (0, 0, 255, 255)).save(small)
-    monkeypatch.setattr("sys.argv", ["emoji_spec", str(small), "--name", "tiny", "--strict"])
+    monkeypatch.setattr(
+        "sys.argv", ["emoji_spec", str(small), "--name", "tiny", "--strict"]
+    )
 
     assert emoji_spec.main() == 1
 
@@ -173,7 +181,9 @@ def test_fetch_cli_downloads_and_regenerates(repo, monkeypatch, capsys):
 
     assert fetch_slack_emojis.main() == 0
     assert (repo / "Emojis" / "newbird.png").exists()
-    assert (repo / "Emojis" / "alias_bird.png").exists()  # alias resolved to a real image
+    assert (
+        repo / "Emojis" / "alias_bird.png"
+    ).exists()  # alias resolved to a real image
     assert "downloaded" in capsys.readouterr().out
 
 
@@ -184,7 +194,9 @@ def test_fetch_cli_dry_run_writes_nothing(repo, monkeypatch, capsys):
     from slack_emojis import fetch_slack_emojis
 
     monkeypatch.setattr(fetch_slack_emojis, "REPO_ROOT", repo)
-    payload = _json.dumps({"ok": True, "emoji": {"ghost": "https://x/ghost.png"}}).encode()
+    payload = _json.dumps(
+        {"ok": True, "emoji": {"ghost": "https://x/ghost.png"}}
+    ).encode()
 
     class _Resp:
         def __init__(self, body):

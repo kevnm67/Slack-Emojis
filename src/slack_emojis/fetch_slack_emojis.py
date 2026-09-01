@@ -44,7 +44,7 @@ def fetch_emoji_list(token: str) -> dict[str, str]:
     if not payload.get("ok"):
         error = payload.get("error", "unknown_error")
         raise RuntimeError(
-            f"Slack API returned an error: {error}. Verify the token has the emoji:read scope."
+            f"Slack API error: {error}. Verify the token has the emoji:read scope."
         )
 
     return payload["emoji"]

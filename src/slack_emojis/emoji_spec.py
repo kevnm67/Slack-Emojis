@@ -95,8 +95,10 @@ class Report:
         return not self.errors
 
 
-def validate(path: Path, name: str | None = None, existing: set[str] | None = None) -> Report:
-    """Validate one image, collecting every violation rather than stopping at the first."""
+def validate(
+    path: Path, name: str | None = None, existing: set[str] | None = None
+) -> Report:
+    """Validate one image, collecting every violation rather than the first."""
     report = Report(path=str(path), name=sanitize_name(name if name else path.stem))
 
     if not path.is_file():
@@ -111,17 +113,25 @@ def validate(path: Path, name: str | None = None, existing: set[str] | None = No
             report.size = image.size
             report.frames = getattr(image, "n_frames", 1)
     except UnidentifiedImageError:
-        report.errors.append(f"not a readable image ({path.suffix} is not a real PNG/JPEG/GIF)")
+        report.errors.append(
+            f"not a readable image ({path.suffix} is not a real PNG/JPEG/GIF)"
+        )
         return report
 
     width, height = report.size
 
     if report.image_format not in ALLOWED_FORMATS:
-        report.errors.append(f"format {report.image_format} is not allowed; use PNG/JPEG/GIF")
+        report.errors.append(
+            f"format {report.image_format} is not allowed; use PNG/JPEG/GIF"
+        )
     if report.size_bytes > MAX_BYTES:
-        report.errors.append(f"file is {report.size_bytes / 1024:.1f} KB; Slack's limit is 128 KB")
+        report.errors.append(
+            f"file is {report.size_bytes / 1024:.1f} KB; Slack's limit is 128 KB"
+        )
     if report.frames > MAX_GIF_FRAMES:
-        report.errors.append(f"{report.frames} frames; Slack allows at most {MAX_GIF_FRAMES}")
+        report.errors.append(
+            f"{report.frames} frames; Slack allows at most {MAX_GIF_FRAMES}"
+        )
     if not VALID_NAME.match(report.name):
         report.errors.append(f"name {report.name!r} is not lowercase snake_case")
     if existing and report.name in existing:
@@ -129,9 +139,13 @@ def validate(path: Path, name: str | None = None, existing: set[str] | None = No
 
     # Slack accepts non-square images and scales them, so this stays a warning.
     if width != height:
-        report.warnings.append(f"{width}x{height} is not square; square avoids letterboxing")
+        report.warnings.append(
+            f"{width}x{height} is not square; square avoids letterboxing"
+        )
     elif width < RECOMMENDED_EDGE:
-        report.warnings.append(f"{width}x{height} is below the {RECOMMENDED_EDGE}px retina size")
+        report.warnings.append(
+            f"{width}x{height} is below the {RECOMMENDED_EDGE}px retina size"
+        )
 
     # Copyright signals are advisory: uploading to your own workspace is not
     # redistribution, so these only become errors under --committing.
@@ -148,11 +162,13 @@ def check_copyright(name: str, path: Path) -> list[str]:
     """
     notes = []
 
-    recorded = json.loads(PROVENANCE_FILE.read_text())["emoji"] if PROVENANCE_FILE.exists() else {}
+    recorded = (
+        json.loads(PROVENANCE_FILE.read_text())["emoji"]
+        if PROVENANCE_FILE.exists()
+        else {}
+    )
     if name not in recorded:
-        notes.append(
-            f"no provenance recorded for {name!r}; add source and license to provenance.json"
-        )
+        notes.append(f"no provenance recorded for {name!r}; add it to provenance.json")
 
     if any(brand in name for brand in BRAND_HINTS):
         notes.append(
@@ -227,7 +243,7 @@ def audit_duplicate_names() -> list[Report]:
         Report(
             path=", ".join(sorted(names)),
             name=stem,
-            errors=[f"{len(names)} files claim the name {stem!r}: {', '.join(sorted(names))}"],
+            errors=[f"{len(names)} files claim {stem!r}: {', '.join(sorted(names))}"],
         )
         for stem, names in by_stem.items()
         if len(names) > 1
@@ -247,16 +263,22 @@ def print_report(report: Report) -> None:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("paths", nargs="*", type=Path, help="image file(s) to validate")
-    parser.add_argument("--name", help="emoji name to check (defaults to the file stem)")
-    parser.add_argument("--json", action="store_true", help="emit machine-readable JSON")
-    parser.add_argument("--audit", action="store_true", help="check the whole Emojis/ collection")
+    parser.add_argument(
+        "--name", help="emoji name to check (defaults to the file stem)"
+    )
+    parser.add_argument(
+        "--json", action="store_true", help="emit machine-readable JSON"
+    )
+    parser.add_argument(
+        "--audit", action="store_true", help="check the whole Emojis/ collection"
+    )
     parser.add_argument(
         "--strict", action="store_true", help="treat warnings as failures (used in CI)"
     )
     parser.add_argument(
         "--committing",
         action="store_true",
-        help="treat copyright notes as failures; use when adding files to this public repo",
+        help="treat copyright notes as failures; use when committing here",
     )
     args = parser.parse_args()
 
@@ -267,13 +289,21 @@ def main() -> int:
 
     if args.audit:
         paths = sorted(p for p in EMOJI_DIR.iterdir() if p.is_file())
-        reports = [validate(p) for p in paths] + audit_tracked_names() + audit_duplicate_names()
+        reports = (
+            [validate(p) for p in paths]
+            + audit_tracked_names()
+            + audit_duplicate_names()
+        )
     else:
         existing = {p.stem for p in EMOJI_DIR.iterdir() if p.is_file()}
         reports = [validate(p, args.name, existing) for p in args.paths]
 
     if args.json:
-        print(json.dumps([vars(r) | {"ok": r.ok} for r in reports], indent=2, default=list))
+        print(
+            json.dumps(
+                [vars(r) | {"ok": r.ok} for r in reports], indent=2, default=list
+            )
+        )
     else:
         for report in reports:
             print_report(report)

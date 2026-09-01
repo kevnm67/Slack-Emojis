@@ -90,7 +90,9 @@ def generate_table():
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Regenerate the emoji table in README.md")
+    parser = argparse.ArgumentParser(
+        description="Regenerate the emoji table in README.md"
+    )
     parser.add_argument(
         "--dry-run",
         help="Print updated readme to console",
