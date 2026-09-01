@@ -82,9 +82,8 @@ def generate_table():
 
     for emoji in get_emoji_list():
         name = emoji.split(".")[0]
-        entry = (
-            f'| {name} | <img src="./Emojis/{emoji}" alt="{name}" width="{EMOJI_IMAGE_WIDTH}"> |'
-        )
+        img = f'<img src="./Emojis/{emoji}" alt="{name}" width="{EMOJI_IMAGE_WIDTH}">'
+        entry = f"| {name} | {img} |"
         table.append(entry)
 
     return "\n".join(table)
