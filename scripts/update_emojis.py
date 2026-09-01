@@ -1,14 +1,35 @@
 #!/usr/bin/env python3
 import argparse
 import os
+import re
+
+EMOJI_IMAGE_WIDTH = 28
+
+
+def sanitize_name(stem: str) -> str:
+    # Lowercase, spaces/hyphens -> underscores, strip anything else non-alnum/underscore
+    slug = stem.lower()
+    slug = re.sub(r"[\s-]+", "_", slug)
+    slug = re.sub(r"[^a-z0-9_]", "", slug)
+    slug = re.sub(r"_+", "_", slug).strip("_")
+    return slug
 
 
 def get_emoji_list():
-    # Get a sorted list of emojis found in the Emojis directory
+    # Get a sorted list of emojis found in the Emojis directory, renaming any
+    # file in place whose name isn't already lowercase snake_case.
     path = os.path.join(os.path.dirname(__file__), "../Emojis")
     files = os.listdir(path)
 
-    return sorted(files)
+    renamed = []
+    for filename in files:
+        stem, ext = os.path.splitext(filename)
+        sanitized = sanitize_name(stem) + ext.lower()
+        if sanitized != filename:
+            os.rename(os.path.join(path, filename), os.path.join(path, sanitized))
+        renamed.append(sanitized)
+
+    return sorted(renamed)
 
 
 def generate_readme(table):
@@ -33,12 +54,14 @@ def generate_readme(table):
 
 def generate_table():
     table = []
-    table.append("| Emoji              | Image                               |")
-    table.append("| ------------------ | ----------------------------------- |")
+    table.append("| Emoji              | Preview |")
+    table.append("| ------------------ | ------- |")
 
     for emoji in get_emoji_list():
         name = emoji.split(".")[0]
-        entry = f"| {name} | ![{name}](./Emojis/{emoji}) |"
+        entry = (
+            f'| {name} | <img src="./Emojis/{emoji}" alt="{name}" width="{EMOJI_IMAGE_WIDTH}"> |'
+        )
         table.append(entry)
 
     return "\n".join(table)
