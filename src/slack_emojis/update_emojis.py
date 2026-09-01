@@ -38,7 +38,7 @@ def rename_emoji_file(directory, old_name, new_name):
     """Rename an emoji file, forcing case-only renames to actually take effect.
 
     macOS and Windows use case-insensitive filesystems, where renaming
-    "DOPS.png" to "dops.png" is a no-op that git does not record — leaving the
+    "Example.png" to "example.png" is a no-op that git does not record — leaving the
     repo tracking the old capitalization while the generated README references
     the new one. On GitHub, which is case-sensitive, that renders as a broken
     image. Routing through a temporary name makes the change real on every
@@ -93,7 +93,10 @@ def generate_table():
 def main() -> int:
     parser = argparse.ArgumentParser(description="Regenerate the emoji table in README.md")
     parser.add_argument(
-        "--dry-run", help="Print updated readme to console", action="store_true", default=False
+        "--dry-run",
+        help="Print updated readme to console",
+        action="store_true",
+        default=False,
     )
     args = parser.parse_args()
 

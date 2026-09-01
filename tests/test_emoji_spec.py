@@ -124,3 +124,28 @@ def test_audit_passes_when_names_are_unique(tmp_path, monkeypatch):
     monkeypatch.setattr(emoji_spec, "EMOJI_DIR", tmp_path)
 
     assert emoji_spec.audit_duplicate_names() == []
+
+
+def test_copyright_flags_missing_provenance(make_image):
+    report = validate(make_image(), name="totally_new_thing")
+    assert report.ok  # advisory only
+    assert any("no provenance" in n for n in report.copyright_notes)
+
+
+def test_copyright_flags_brand_names(make_image):
+    report = validate(make_image(), name="nintendo_thing")
+    assert report.ok
+    assert any("third-party IP" in n for n in report.copyright_notes)
+
+
+def test_copyright_silent_for_recorded_provenance(make_image, monkeypatch, tmp_path):
+    import json
+
+    from slack_emojis import emoji_spec
+
+    provenance = tmp_path / "provenance.json"
+    provenance.write_text(json.dumps({"emoji": {"safe_name": {"source": "x", "license": "MIT"}}}))
+    monkeypatch.setattr(emoji_spec, "PROVENANCE_FILE", provenance)
+
+    report = emoji_spec.validate(make_image(), name="safe_name")
+    assert report.copyright_notes == []

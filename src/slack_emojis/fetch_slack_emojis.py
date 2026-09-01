@@ -19,13 +19,24 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_DEST = REPO_ROOT / "Emojis"
 
 
+def open_https(request: urllib.request.Request):
+    """Open a request, refusing any scheme but HTTPS.
+
+    Emoji URLs come from the Slack API response, so without this a compromised
+    or spoofed response could hand back file:// and have us read local files.
+    """
+    if urlparse(request.full_url).scheme != "https":
+        raise ValueError(f"refusing non-HTTPS URL: {request.full_url}")
+    return urllib.request.urlopen(request, timeout=30)  # nosec B310
+
+
 def fetch_emoji_list(token: str) -> dict[str, str]:
     request = urllib.request.Request(
         SLACK_API_URL,
         headers={"Authorization": f"Bearer {token}"},
     )
     try:
-        with urllib.request.urlopen(request, timeout=30) as response:
+        with open_https(request) as response:
             payload = json.loads(response.read())
     except urllib.error.URLError as error:
         raise RuntimeError(f"Failed to reach Slack API: {error}") from error
@@ -66,8 +77,7 @@ def existing_emoji_names(dest: Path) -> set[str]:
 def download_emoji(name: str, url: str, dest: Path) -> Path:
     extension = Path(urlparse(url).path).suffix or ".png"
     target = dest / f"{name}{extension}"
-    request = urllib.request.Request(url)
-    with urllib.request.urlopen(request, timeout=30) as response:
+    with open_https(urllib.request.Request(url)) as response:
         target.write_bytes(response.read())
     return target
 

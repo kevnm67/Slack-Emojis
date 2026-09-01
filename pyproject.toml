@@ -38,3 +38,8 @@ select = ["E", "F", "W", "UP", "B"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.bandit]
+# B101 (assert) is how pytest is written; excluding the suite keeps
+# bandit meaningful on src/ instead of silencing the rule everywhere.
+exclude_dirs = ["tests", ".venv"]

@@ -1,11 +1,11 @@
 # Slack-Emojis
 
 A collection of custom emoji images plus small Python utilities to maintain
-them. Personal public repo — no Jira ticket, no LT conventions, no CircleCI.
+them. Personal public repo — no ticket tracker, no CI beyond GitHub Actions.
 
 ## Layout
 
-```
+```text
 Emojis/                       the collection (lowercase snake_case filenames)
 src/slack_emojis/             the package
   update_emojis.py            sanitizes filenames, regenerates the README table

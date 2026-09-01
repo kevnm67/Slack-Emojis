@@ -23,13 +23,52 @@ dimensions or hand-edit the README table.
 
 - [ ] 1. Validate the candidate: `python -m slack_emojis.emoji_spec <file> --name <name>`
 - [ ] 2. Fix anything it reports (see Fixing failures below), re-run until it passes
-- [ ] 3. Move the file into `Emojis/` under its sanitized name
-- [ ] 4. Regenerate the README: `make build`
-- [ ] 5. Audit the whole collection: `python -m slack_emojis.emoji_spec --audit`
-- [ ] 6. Confirm `git status` shows the new file *and* the README change
+- [ ] 3. Record where it came from in `provenance.json` (see Copyright below)
+- [ ] 4. Re-run with `--committing` — this is the gate for adding to *this* repo
+- [ ] 5. Move the file into `Emojis/` under its sanitized name
+- [ ] 6. Regenerate the README: `make build`
+- [ ] 7. Audit the whole collection: `python -m slack_emojis.emoji_spec --audit`
+- [ ] 8. Confirm `git status` shows the new file *and* the README change
 
-Step 5 is not optional. It is the only check that catches the case-rename bug
+Step 7 is not optional. It is the only check that catches the case-rename bug
 in Gotchas below, and it is what CI runs.
+
+## Copyright
+
+Uploading an emoji to your own Slack workspace and committing it to this
+**public** repo are different acts. The first is ordinary use; the second is
+redistribution, and needs a license behind it.
+
+The validator reflects that split:
+
+```bash
+python -m slack_emojis.emoji_spec new.png              # warns, exit 0
+python -m slack_emojis.emoji_spec new.png --committing # same notes, exit 1
+```
+
+Copyright notes never block by default. Under `--committing` they do. Clear
+them by recording the origin in `provenance.json`:
+
+```json
+"emoji": {
+  "some_emoji": {
+    "source": "https://github.com/microsoft/fluentui-emoji",
+    "license": "MIT",
+    "attribution": null
+  }
+}
+```
+
+The checks are advisory signals, not a legal determination: a missing
+provenance entry, a name matching a known brand or character, and any
+copyright field embedded in the image metadata. A brand hint on something you
+have rights to is fine — record the provenance and move on.
+
+Sources worth using, with licenses verified, are in
+[references/emoji-sources.md](references/emoji-sources.md). Read it before
+pulling an image from a new site — notably, Slackmojis is the best place to
+*find* emoji and a poor place to source files for this repo, because its
+images carry no license.
 
 ## Slack's constraints
 
@@ -70,9 +109,9 @@ characters — pick a real name rather than fighting the sanitizer.
 
 ## Gotchas
 
-- **A case-only rename silently does nothing on macOS.** `DOPS.png` →
-  `dops.png` succeeds on disk but git records no change, so git keeps tracking
-  `DOPS.png` while the generated README points at `dops.png`. GitHub is
+- **A case-only rename silently does nothing on macOS.** `Example.png` →
+  `example.png` succeeds on disk but git records no change, so git keeps tracking
+  `Example.png` while the generated README points at `example.png`. GitHub is
   case-sensitive, so it renders as a broken image with no local symptom.
   `rename_emoji_file()` routes through a temp name to prevent this; if you hit
   it on an existing file, fix it with two moves:

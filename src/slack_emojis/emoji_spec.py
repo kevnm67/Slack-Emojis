@@ -25,6 +25,55 @@ ALLOWED_FORMATS = {"PNG", "JPEG", "GIF"}
 RECOMMENDED_EDGE = 128
 VALID_NAME = re.compile(r"^[a-z0-9]+(?:_[a-z0-9]+)*$")
 EMOJI_DIR = REPO_ROOT / "Emojis"
+PROVENANCE_FILE = REPO_ROOT / "provenance.json"
+
+# Substrings suggesting third-party IP. Deliberately a heuristic prompting a
+# human look, not a copyright determination — it cannot make one.
+BRAND_HINTS = frozenset(
+    {
+        "apple",
+        "aws",
+        "azure",
+        "circleci",
+        "datadog",
+        "disney",
+        "figma",
+        "github",
+        "grafana",
+        "hashicorp",
+        "jira",
+        "kong",
+        "linkedin",
+        "marvel",
+        "mario",
+        "luigi",
+        "netflix",
+        "nintendo",
+        "pokemon",
+        "postman",
+        "salesforce",
+        "sentry",
+        "slack",
+        "starwars",
+        "terraform",
+        "vscode",
+        "xcode",
+        "zoom",
+        # characters and people
+        "bob_ross",
+        "carlton",
+        "devito",
+        "fry",
+        "ghostbusters",
+        "homer",
+        "johnwick",
+        "keanu",
+        "mrburns",
+        "ralph",
+        "simpson",
+        "wick",
+    }
+)
 
 
 @dataclass
@@ -39,6 +88,7 @@ class Report:
     frames: int | None = None
     errors: list[str] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
+    copyright_notes: list[str] = field(default_factory=list)
 
     @property
     def ok(self) -> bool:
@@ -83,14 +133,51 @@ def validate(path: Path, name: str | None = None, existing: set[str] | None = No
     elif width < RECOMMENDED_EDGE:
         report.warnings.append(f"{width}x{height} is below the {RECOMMENDED_EDGE}px retina size")
 
+    # Copyright signals are advisory: uploading to your own workspace is not
+    # redistribution, so these only become errors under --committing.
+    report.copyright_notes = check_copyright(report.name, path)
+
     return report
+
+
+def check_copyright(name: str, path: Path) -> list[str]:
+    """Flag likely third-party IP and missing provenance.
+
+    Advisory by design: this cannot determine copyright, only surface the
+    signals a human should look at. Callers decide whether these block.
+    """
+    notes = []
+
+    recorded = json.loads(PROVENANCE_FILE.read_text())["emoji"] if PROVENANCE_FILE.exists() else {}
+    if name not in recorded:
+        notes.append(
+            f"no provenance recorded for {name!r}; add source and license to provenance.json"
+        )
+
+    if any(brand in name for brand in BRAND_HINTS):
+        notes.append(
+            f"{name!r} looks like third-party IP (brand, character, or celebrity). "
+            "Fan art is generally unlicensed — fine for your own workspace, a "
+            "redistribution risk in a public repo"
+        )
+
+    # PNG/JPEG can carry a copyright field; surface it rather than guessing.
+    try:
+        with Image.open(path) as image:
+            for key in ("copyright", "Copyright", "Artist"):
+                if value := (image.info or {}).get(key):
+                    notes.append(f"image metadata declares {key}: {value}")
+    except UnidentifiedImageError, OSError:
+        pass
+
+    return notes
 
 
 def audit_tracked_names() -> list[Report]:
     """Flag emoji whose git-tracked filename differs from the name on disk.
 
     On case-insensitive filesystems (macOS, Windows) an emoji can sit on disk as
-    "dops.png" while git still tracks "DOPS.png". The README references the
+    "example.png" while git still tracks "Example.png". The README references the
     on-disk name, so GitHub — case-sensitive — serves a broken image.
     """
     try:
@@ -153,6 +240,8 @@ def print_report(report: Report) -> None:
         print(f"      error:   {error}")
     for warning in report.warnings:
         print(f"      warning: {warning}")
+    for note in report.copyright_notes:
+        print(f"      copyright: {note}")
 
 
 def main() -> int:
@@ -163,6 +252,11 @@ def main() -> int:
     parser.add_argument("--audit", action="store_true", help="check the whole Emojis/ collection")
     parser.add_argument(
         "--strict", action="store_true", help="treat warnings as failures (used in CI)"
+    )
+    parser.add_argument(
+        "--committing",
+        action="store_true",
+        help="treat copyright notes as failures; use when adding files to this public repo",
     )
     args = parser.parse_args()
 
@@ -189,6 +283,8 @@ def main() -> int:
     failed = any(not r.ok for r in reports)
     if args.strict:
         failed = failed or any(r.warnings for r in reports)
+    if args.committing:
+        failed = failed or any(r.copyright_notes for r in reports)
     return 1 if failed else 0
 
 

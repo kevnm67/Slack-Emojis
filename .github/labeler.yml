@@ -1,24 +1,36 @@
-# Auto-label PRs based on changed files (v7 format)
+# Auto-label PRs based on changed files (actions/labeler v7 format)
 dependencies:
   - changed-files:
-    - any-glob-to-any-file:
-      - 'requirements*.txt'
-      - 'setup.py'
-      - 'setup.cfg'
-      - 'pyproject.toml'
-      - 'Pipfile*'
-      - 'package.json'
-      - 'package-lock.json'
-      - 'yarn.lock'
+      - any-glob-to-any-file:
+          - 'requirements*.txt'
+          - 'setup.py'
+          - 'setup.cfg'
+          - 'pyproject.toml'
+          - 'Pipfile*'
+          - 'package.json'
+          - 'package-lock.json'
+          - 'yarn.lock'
 
 github-actions:
   - changed-files:
-    - any-glob-to-any-file:
-      - '.github/**'
+      - any-glob-to-any-file:
+          - '.github/**'
 
 documentation:
   - changed-files:
-    - any-glob-to-any-file:
-      - '*.md'
-      - 'docs/**'
-      - 'LICENSE'
+      - any-glob-to-any-file:
+          - '*.md'
+          - 'docs/**'
+          - 'LICENSE'
+
+ci:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/workflows/**'
+          - '.pre-commit-config.yaml'
+          - '.qlty/**'
+
+test:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'tests/**'

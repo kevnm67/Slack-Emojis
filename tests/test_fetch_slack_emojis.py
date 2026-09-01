@@ -82,3 +82,17 @@ def test_download_emoji_writes_file(tmp_path):
         target = download_emoji("parrot", "https://x/parrot.gif", tmp_path)
     assert target == tmp_path / "parrot.gif"
     assert target.read_bytes() == b"binary-image-data"
+
+
+def test_open_https_rejects_non_https_schemes():
+    import urllib.request
+
+    from slack_emojis.fetch_slack_emojis import open_https
+
+    for url in ("file:///etc/passwd", "http://example.com/x.png", "ftp://x/y.png"):
+        try:
+            open_https(urllib.request.Request(url))
+        except ValueError as error:
+            assert "refusing non-HTTPS" in str(error)
+        else:
+            raise AssertionError(f"expected {url} to be refused")

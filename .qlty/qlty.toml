@@ -12,6 +12,9 @@ default = true
 
 [[plugin]]
 name = "ruff"
+# Pinned to match .pre-commit-config.yaml and the dev extra, so the three
+# ruff installs cannot disagree about formatting.
+version = "0.16.5"
 
 [[plugin]]
 name = "bandit"
@@ -27,3 +30,9 @@ name = "yamllint"
 
 [smells]
 mode = "comment"
+
+# B101 flags every `assert`, which is how pytest is written. Ignoring it for
+# the suite keeps bandit meaningful on src/ rather than silencing the rule.
+[[exclude]]
+plugins = ["bandit"]
+file_patterns = ["tests/**"]

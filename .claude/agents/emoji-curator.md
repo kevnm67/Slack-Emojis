@@ -37,7 +37,7 @@ git status --porcelain
 
 ## Output format
 
-```
+```text
 VERDICT: PASS | FAIL — <one clause>
 
 | Emoji | Status | Detail |
