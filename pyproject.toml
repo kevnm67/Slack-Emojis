@@ -1,0 +1,23 @@
+[project]
+name = "slack-emojis"
+version = "0.1.0"
+description = "Emoji's commonly used for Slack, Jira, etc."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["scripts/tests"]
