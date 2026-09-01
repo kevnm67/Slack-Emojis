@@ -9,14 +9,19 @@ description = "Emoji's commonly used for Slack, Jira, etc."
 readme = "README.md"
 requires-python = ">=3.14"
 license = { file = "LICENSE" }
+dependencies = [
+    "pillow>=11.0",
+]
 
 [project.scripts]
 slack-emojis-update = "slack_emojis.update_emojis:main"
 slack-emojis-fetch = "slack_emojis.fetch_slack_emojis:main"
+slack-emojis-validate = "slack_emojis.emoji_spec:main"
 
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0",
+    "pytest-cov>=5.0",
     "ruff>=0.6",
     "pre-commit>=3.7",
 ]

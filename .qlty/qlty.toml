@@ -1,10 +1,29 @@
 config_version = "0"
 
+exclude_patterns = [
+  "Emojis/**",
+  ".venv/**",
+  "**/__pycache__/**",
+]
+
 [[source]]
 name = "default"
+default = true
 
 [[plugin]]
 name = "ruff"
 
 [[plugin]]
 name = "bandit"
+
+[[plugin]]
+name = "actionlint"
+
+[[plugin]]
+name = "markdownlint"
+
+[[plugin]]
+name = "yamllint"
+
+[smells]
+mode = "comment"

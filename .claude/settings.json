@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(make:*)",
+      "Bash(python -m slack_emojis.emoji_spec:*)",
+      "Bash(python -m slack_emojis.update_emojis:*)",
+      "Bash(python -m pytest:*)",
+      "Bash(python -m ruff:*)",
+      "Bash(rsvg-convert:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git ls-files:*)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./**/*token*)",
+      "Bash(env)",
+      "Bash(printenv:*)"
+    ]
+  }
+}
