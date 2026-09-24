@@ -25,7 +25,7 @@ jobs:
 
       - name: Upload coverage to qlty
         if: ${{ !cancelled() }}
-        uses: qltysh/qlty-action/coverage@v2.3.0
+        uses: qltysh/qlty-action/coverage@v2.4.0
         with:
           token: ${{ secrets.COVERAGE_TOKEN }}
           files: coverage.xml
