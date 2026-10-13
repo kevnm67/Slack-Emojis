@@ -1,3 +1,4 @@
+from slack_emojis import update_emojis
 from slack_emojis.update_emojis import sanitize_name
 
 
@@ -23,3 +24,14 @@ def test_sanitize_name_strips_leading_trailing_underscores():
 
 def test_sanitize_name_already_clean_is_unchanged():
     assert sanitize_name("already_clean") == "already_clean"
+
+
+def test_get_emoji_list_skips_subdirectories(tmp_path, monkeypatch):
+    emojis = tmp_path / "Emojis"
+    (emojis / "private").mkdir(parents=True)
+    (emojis / "private" / "secret.png").write_bytes(b"")
+    (emojis / "party.png").write_bytes(b"")
+    monkeypatch.setattr(update_emojis, "REPO_ROOT", tmp_path)
+
+    assert update_emojis.get_emoji_list() == ["party.png"]
+    assert (emojis / "private").is_dir()

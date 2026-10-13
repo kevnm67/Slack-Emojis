@@ -38,6 +38,7 @@ emojis from a Slack workspace via `emoji.list`, then chains into the same regene
 | ------------------ | ------- |
 | 1password | <img src="./Emojis/1password.png" alt="1password" width="28"> |
 | agile | <img src="./Emojis/agile.png" alt="agile" width="28"> |
+| agree_to_degree | <img src="./Emojis/agree_to_degree.png" alt="agree_to_degree" width="28"> |
 | android | <img src="./Emojis/android.png" alt="android" width="28"> |
 | api | <img src="./Emojis/api.png" alt="api" width="28"> |
 | apple_inc | <img src="./Emojis/apple_inc.png" alt="apple_inc" width="28"> |
@@ -70,6 +71,7 @@ emojis from a Slack workspace via `emoji.list`, then chains into the same regene
 | doh | <img src="./Emojis/doh.png" alt="doh" width="28"> |
 | dops | <img src="./Emojis/dops.png" alt="dops" width="28"> |
 | downvote | <img src="./Emojis/downvote.png" alt="downvote" width="28"> |
+| drmario | <img src="./Emojis/drmario.jpg" alt="drmario" width="28"> |
 | excellent_mrburns | <img src="./Emojis/excellent_mrburns.gif" alt="excellent_mrburns" width="28"> |
 | fidget | <img src="./Emojis/fidget.gif" alt="fidget" width="28"> |
 | figma | <img src="./Emojis/figma.png" alt="figma" width="28"> |
@@ -95,18 +97,26 @@ emojis from a Slack workspace via `emoji.list`, then chains into the same regene
 | johnwickq | <img src="./Emojis/johnwickq.png" alt="johnwickq" width="28"> |
 | keanu | <img src="./Emojis/keanu.png" alt="keanu" width="28"> |
 | kong_gateway | <img src="./Emojis/kong_gateway.png" alt="kong_gateway" width="28"> |
+| license_manager | <img src="./Emojis/license_manager.png" alt="license_manager" width="28"> |
 | linkedin | <img src="./Emojis/linkedin.png" alt="linkedin" width="28"> |
 | mac_finder | <img src="./Emojis/mac_finder.gif" alt="mac_finder" width="28"> |
 | magic_school_bus | <img src="./Emojis/magic_school_bus.png" alt="magic_school_bus" width="28"> |
 | mainframe | <img src="./Emojis/mainframe.png" alt="mainframe" width="28"> |
 | mario | <img src="./Emojis/mario.png" alt="mario" width="28"> |
 | mario_luigi_dance | <img src="./Emojis/mario_luigi_dance.gif" alt="mario_luigi_dance" width="28"> |
+| medical_bag | <img src="./Emojis/medical_bag.gif" alt="medical_bag" width="28"> |
 | new_relic | <img src="./Emojis/new_relic.png" alt="new_relic" width="28"> |
+| old_man_yells_and_yells_and_yells | <img src="./Emojis/old_man_yells_and_yells_and_yells.png" alt="old_man_yells_and_yells_and_yells" width="28"> |
+| old_man_yells_at_1password | <img src="./Emojis/old_man_yells_at_1password.png" alt="old_man_yells_at_1password" width="28"> |
 | old_man_yells_at_agentforce | <img src="./Emojis/old_man_yells_at_agentforce.png" alt="old_man_yells_at_agentforce" width="28"> |
+| old_man_yells_at_android_rtl | <img src="./Emojis/old_man_yells_at_android_rtl.png" alt="old_man_yells_at_android_rtl" width="28"> |
 | old_man_yells_at_atlassian | <img src="./Emojis/old_man_yells_at_atlassian.png" alt="old_man_yells_at_atlassian" width="28"> |
+| old_man_yells_at_aws | <img src="./Emojis/old_man_yells_at_aws.png" alt="old_man_yells_at_aws" width="28"> |
 | old_man_yells_at_azure | <img src="./Emojis/old_man_yells_at_azure.png" alt="old_man_yells_at_azure" width="28"> |
 | old_man_yells_at_azure_devops | <img src="./Emojis/old_man_yells_at_azure_devops.png" alt="old_man_yells_at_azure_devops" width="28"> |
 | old_man_yells_at_circleci | <img src="./Emojis/old_man_yells_at_circleci.png" alt="old_man_yells_at_circleci" width="28"> |
+| old_man_yells_at_confluence | <img src="./Emojis/old_man_yells_at_confluence.png" alt="old_man_yells_at_confluence" width="28"> |
+| old_man_yells_at_excel | <img src="./Emojis/old_man_yells_at_excel.png" alt="old_man_yells_at_excel" width="28"> |
 | old_man_yells_at_power_bi | <img src="./Emojis/old_man_yells_at_power_bi.png" alt="old_man_yells_at_power_bi" width="28"> |
 | old_man_yells_at_salesforce | <img src="./Emojis/old_man_yells_at_salesforce.png" alt="old_man_yells_at_salesforce" width="28"> |
 | old_man_yells_at_sentry | <img src="./Emojis/old_man_yells_at_sentry.png" alt="old_man_yells_at_sentry" width="28"> |
@@ -117,6 +127,7 @@ emojis from a Slack workspace via `emoji.list`, then chains into the same regene
 | powerbi | <img src="./Emojis/powerbi.png" alt="powerbi" width="28"> |
 | pycharm | <img src="./Emojis/pycharm.png" alt="pycharm" width="28"> |
 | python | <img src="./Emojis/python.png" alt="python" width="28"> |
+| recruit | <img src="./Emojis/recruit.png" alt="recruit" width="28"> |
 | salesforce | <img src="./Emojis/salesforce.png" alt="salesforce" width="28"> |
 | salesforce_salespoop | <img src="./Emojis/salesforce_salespoop.png" alt="salesforce_salespoop" width="28"> |
 | scrum_sprint | <img src="./Emojis/scrum_sprint.png" alt="scrum_sprint" width="28"> |
