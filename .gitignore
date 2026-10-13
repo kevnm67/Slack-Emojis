@@ -12,3 +12,6 @@ coverage.xml
 .qlty/out
 .qlty/results
 .qlty/plugin_cachedir
+
+# Local-only emoji that must never be committed
+Emojis/private/

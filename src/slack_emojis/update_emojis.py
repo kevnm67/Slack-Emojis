@@ -21,7 +21,8 @@ def get_emoji_list():
     # Get a sorted list of emojis found in the Emojis directory, renaming any
     # file in place whose name isn't already lowercase snake_case.
     path = os.path.join(REPO_ROOT, "Emojis")
-    files = os.listdir(path)
+    # Subdirectories (e.g. Emojis/private/) are not part of the collection.
+    files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
 
     renamed = []
     for filename in files:
