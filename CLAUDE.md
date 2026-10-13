@@ -6,7 +6,7 @@ them. Personal public repo — no ticket tracker, no CI beyond GitHub Actions.
 ## Layout
 
 ```text
-Emojis/                       the collection (lowercase snake_case filenames)
+emojis/                       the collection (lowercase snake_case filenames)
 src/slack_emojis/             the package
   update_emojis.py            sanitizes filenames, regenerates the README table
   fetch_slack_emojis.py       pulls custom emoji from a Slack workspace
@@ -22,7 +22,7 @@ tests/                        pytest suite, mirrors src/
 make setup   # venv + editable install + pre-commit hooks
 make test    # pytest
 make lint    # ruff check
-make build   # regenerate README.md from Emojis/
+make build   # regenerate README.md from emojis/
 make ci      # lint + test + build, what CI runs
 python -m slack_emojis.emoji_spec --audit    # validate the whole collection
 ```
@@ -38,7 +38,7 @@ python -m slack_emojis.emoji_spec --audit    # validate the whole collection
   `git mv X.png x.png` records nothing and GitHub ends up serving a broken
   image. Go through a temp name. `rename_emoji_file()` does this correctly in
   code; the manual fix is
-  `git mv Emojis/X.png Emojis/tmp && git mv Emojis/tmp Emojis/x.png`.
+  `git mv emojis/X.png emojis/tmp && git mv emojis/tmp emojis/x.png`.
 - **Non-square emoji are fine.** Slack scales them. 31 in the collection are
   non-square. The validator reports them as warnings, not errors — don't
   "fix" them unprompted.

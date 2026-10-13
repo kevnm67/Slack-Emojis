@@ -5,13 +5,17 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "slack-emojis"
 version = "0.1.0"
-description = "Emoji's commonly used for Slack, Jira, etc."
+description = "Custom emoji commonly used in Slack, Jira, etc."
 readme = "README.md"
 requires-python = ">=3.14"
 license = { file = "LICENSE" }
 dependencies = [
     "pillow>=11.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/kevnm67/Slack-Emojis"
+Issues = "https://github.com/kevnm67/Slack-Emojis/issues"
 
 [project.scripts]
 slack-emojis-update = "slack_emojis.update_emojis:main"

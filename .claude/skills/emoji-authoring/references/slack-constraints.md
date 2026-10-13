@@ -12,7 +12,7 @@ Verified 2026-09-01. Re-verify before trusting these numbers in a year.
 | Animation | "GIFs can include up to 50 frames" | error above 50 frames |
 | Shape | "Square images ... work best" | warning — Slack scales non-square |
 | Background | "transparent backgrounds work best" | not checked |
-| Name | must be unique in the workspace | error on collision within `Emojis/` |
+| Name | must be unique in the workspace | error on collision within `emojis/` |
 
 Slack does not publish a required pixel dimension. 128x128 is the practical
 target because that is the resolution Slack serves to retina clients; anything

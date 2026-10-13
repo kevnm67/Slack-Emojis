@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Download all custom emojis from a Slack workspace into Emojis/."""
+"""Download all custom emojis from a Slack workspace into emojis/."""
 
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ from urllib.parse import urlparse
 SLACK_API_URL = "https://slack.com/api/emoji.list"
 ALIAS_PREFIX = "alias:"
 REPO_ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_DEST = REPO_ROOT / "Emojis"
+DEFAULT_DEST = REPO_ROOT / "emojis"
 
 
 def open_https(request: urllib.request.Request):
@@ -100,7 +100,7 @@ def main() -> int:
         "--dest",
         type=Path,
         default=DEFAULT_DEST,
-        help="Directory to download emojis into (default: ./Emojis)",
+        help="Directory to download emojis into (default: ./emojis)",
     )
     parser.add_argument(
         "--force",

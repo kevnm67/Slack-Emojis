@@ -1,7 +1,7 @@
 ---
 name: emoji-curator
 description: >
-  Reviews emoji additions and audits the Emojis/ collection before a PR lands.
+  Reviews emoji additions and audits the emojis/ collection before a PR lands.
   Use when several emoji images are being added at once, when an emoji renders
   wrong on GitHub, when the README table looks out of sync with the files on
   disk, or when asked whether the emoji set is healthy. Returns a PASS/FAIL

@@ -10,8 +10,8 @@ from slack_emojis import emoji_spec, update_emojis
 
 @pytest.fixture
 def repo(tmp_path, monkeypatch):
-    """A miniature repo: Emojis/, a README with the generated markers, provenance."""
-    emoji_dir = tmp_path / "Emojis"
+    """A miniature repo: emojis/, a README with the generated markers, provenance."""
+    emoji_dir = tmp_path / "emojis"
     emoji_dir.mkdir()
     Image.new("RGBA", (128, 128), (255, 0, 0, 255)).save(emoji_dir / "parrot.png")
     Image.new("RGBA", (128, 128), (0, 255, 0, 255)).save(emoji_dir / "Shouty Name.png")
@@ -56,7 +56,7 @@ def test_update_emojis_sanitizes_filenames_on_disk(repo, monkeypatch):
     monkeypatch.setattr("sys.argv", ["update_emojis"])
     update_emojis.main()
 
-    names = {p.name for p in (repo / "Emojis").iterdir()}
+    names = {p.name for p in (repo / "emojis").iterdir()}
     assert "shouty_name.png" in names
     assert "Shouty Name.png" not in names
 
@@ -81,7 +81,7 @@ def test_validate_cli_fails_a_duplicate(repo, monkeypatch, capsys):
 
 def test_validate_cli_json_output_is_parseable(repo, monkeypatch, capsys):
     monkeypatch.setattr(
-        "sys.argv", ["emoji_spec", str(repo / "Emojis" / "parrot.png"), "--json"]
+        "sys.argv", ["emoji_spec", str(repo / "emojis" / "parrot.png"), "--json"]
     )
     emoji_spec.main()
 
@@ -144,7 +144,7 @@ def test_fetch_cli_downloads_and_regenerates(repo, monkeypatch, capsys):
             },
         }
     ).encode()
-    image_bytes = (repo / "Emojis" / "parrot.png").read_bytes()
+    image_bytes = (repo / "emojis" / "parrot.png").read_bytes()
 
     class _Resp:
         def __init__(self, body):
@@ -173,16 +173,16 @@ def test_fetch_cli_downloads_and_regenerates(repo, monkeypatch, capsys):
             "--token",
             "xoxp-fake",
             "--dest",
-            str(repo / "Emojis"),
+            str(repo / "emojis"),
             "--delay",
             "0",
         ],
     )
 
     assert fetch_slack_emojis.main() == 0
-    assert (repo / "Emojis" / "newbird.png").exists()
+    assert (repo / "emojis" / "newbird.png").exists()
     assert (
-        repo / "Emojis" / "alias_bird.png"
+        repo / "emojis" / "alias_bird.png"
     ).exists()  # alias resolved to a real image
     assert "downloaded" in capsys.readouterr().out
 
@@ -214,11 +214,11 @@ def test_fetch_cli_dry_run_writes_nothing(repo, monkeypatch, capsys):
     monkeypatch.setattr(fetch_slack_emojis, "open_https", lambda r: _Resp(payload))
     monkeypatch.setattr(
         "sys.argv",
-        ["fetch", "--token", "xoxp-fake", "--dest", str(repo / "Emojis"), "--dry-run"],
+        ["fetch", "--token", "xoxp-fake", "--dest", str(repo / "emojis"), "--dry-run"],
     )
 
     assert fetch_slack_emojis.main() == 0
-    assert not (repo / "Emojis" / "ghost.png").exists()
+    assert not (repo / "emojis" / "ghost.png").exists()
     assert "would download" in capsys.readouterr().out
 
 
