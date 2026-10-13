@@ -24,7 +24,14 @@ MAX_GIF_FRAMES = 50
 ALLOWED_FORMATS = {"PNG", "JPEG", "GIF"}
 RECOMMENDED_EDGE = 128
 VALID_NAME = re.compile(r"^[a-z0-9]+(?:_[a-z0-9]+)*$")
-EMOJI_DIR = REPO_ROOT / "Emojis"
+EMOJI_DIR = REPO_ROOT / "emojis"
+
+
+def is_emoji_file(path: Path) -> bool:
+    """A regular, non-hidden file; skips subdirectories and OS litter like .DS_Store."""
+    return path.is_file() and not path.name.startswith(".")
+
+
 PROVENANCE_FILE = REPO_ROOT / "provenance.json"
 
 # Substrings suggesting third-party IP. Deliberately a heuristic prompting a
@@ -198,7 +205,7 @@ def audit_tracked_names() -> list[Report]:
     """
     try:
         result = subprocess.run(
-            ["git", "ls-files", "Emojis"],
+            ["git", "ls-files", "emojis"],
             cwd=REPO_ROOT,
             capture_output=True,
             text=True,
@@ -207,7 +214,7 @@ def audit_tracked_names() -> list[Report]:
     except subprocess.CalledProcessError, FileNotFoundError:
         return []  # not a git checkout
 
-    on_disk = {p.name for p in EMOJI_DIR.iterdir() if p.is_file()}
+    on_disk = {p.name for p in EMOJI_DIR.iterdir() if is_emoji_file(p)}
     lowered = {n.lower(): n for n in on_disk}
     reports = []
 
@@ -236,7 +243,7 @@ def audit_duplicate_names() -> list[Report]:
     """
     by_stem: dict[str, list[str]] = {}
     for path in EMOJI_DIR.iterdir():
-        if path.is_file():
+        if is_emoji_file(path):
             by_stem.setdefault(sanitize_name(path.stem), []).append(path.name)
 
     return [
@@ -270,7 +277,7 @@ def main() -> int:
         "--json", action="store_true", help="emit machine-readable JSON"
     )
     parser.add_argument(
-        "--audit", action="store_true", help="check the whole Emojis/ collection"
+        "--audit", action="store_true", help="check the whole emojis/ collection"
     )
     parser.add_argument(
         "--strict", action="store_true", help="treat warnings as failures (used in CI)"
@@ -288,14 +295,14 @@ def main() -> int:
         parser.error("pass at least one path, or --audit to check the whole collection")
 
     if args.audit:
-        paths = sorted(p for p in EMOJI_DIR.iterdir() if p.is_file())
+        paths = sorted(p for p in EMOJI_DIR.iterdir() if is_emoji_file(p))
         reports = (
             [validate(p) for p in paths]
             + audit_tracked_names()
             + audit_duplicate_names()
         )
     else:
-        existing = {p.stem for p in EMOJI_DIR.iterdir() if p.is_file()}
+        existing = {p.stem for p in EMOJI_DIR.iterdir() if is_emoji_file(p)}
         reports = [validate(p, args.name, existing) for p in args.paths]
 
     if args.json:

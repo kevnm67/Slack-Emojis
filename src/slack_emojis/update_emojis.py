@@ -18,11 +18,16 @@ def sanitize_name(stem: str) -> str:
 
 
 def get_emoji_list():
-    # Get a sorted list of emojis found in the Emojis directory, renaming any
+    # Get a sorted list of emojis found in the emojis directory, renaming any
     # file in place whose name isn't already lowercase snake_case.
-    path = os.path.join(REPO_ROOT, "Emojis")
-    # Subdirectories (e.g. Emojis/private/) are not part of the collection.
-    files = [f for f in os.listdir(path) if os.path.isfile(os.path.join(path, f))]
+    path = os.path.join(REPO_ROOT, "emojis")
+    # Subdirectories (e.g. emojis/private/) and hidden files (.DS_Store) are not
+    # part of the collection.
+    files = [
+        f
+        for f in os.listdir(path)
+        if os.path.isfile(os.path.join(path, f)) and not f.startswith(".")
+    ]
 
     renamed = []
     for filename in files:
@@ -83,7 +88,7 @@ def generate_table():
 
     for emoji in get_emoji_list():
         name = emoji.split(".")[0]
-        img = f'<img src="./Emojis/{emoji}" alt="{name}" width="{EMOJI_IMAGE_WIDTH}">'
+        img = f'<img src="./emojis/{emoji}" alt="{name}" width="{EMOJI_IMAGE_WIDTH}">'
         entry = f"| {name} | {img} |"
         table.append(entry)
 

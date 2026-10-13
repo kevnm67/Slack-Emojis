@@ -14,4 +14,12 @@ coverage.xml
 .qlty/plugin_cachedir
 
 # Local-only emoji that must never be committed
-Emojis/private/
+emojis/private/
+
+# OS / editor / env
+.DS_Store
+.env
+.idea/
+.vscode/
+build/
+dist/

@@ -1,12 +1,12 @@
 ---
 name: emoji-authoring
 description: >
-  Add, validate, or fix custom emoji images in this repository's Emojis/
+  Add, validate, or fix custom emoji images in this repository's emojis/
   collection. Use when the user wants to add a new emoji, drops an image file
   in and wants it turned into a Slack emoji, asks why an emoji looks broken or
   isn't showing up in the README, wants emoji filenames cleaned up, or asks to
   check whether the emoji set is still valid — even if they don't say "emoji
-  spec", "validate", or name the Emojis/ directory directly. Also use when
+  spec", "validate", or name the emojis/ directory directly. Also use when
   converting an image to Slack's required format (square, under 128 KB,
   PNG/JPEG/GIF, 50-frame GIF limit).
 license: MIT
@@ -25,7 +25,7 @@ dimensions or hand-edit the README table.
 - [ ] 2. Fix anything it reports (see Fixing failures below), re-run until it passes
 - [ ] 3. Record where it came from in `provenance.json` (see Copyright below)
 - [ ] 4. Re-run with `--committing` — this is the gate for adding to *this* repo
-- [ ] 5. Move the file into `Emojis/` under its sanitized name
+- [ ] 5. Move the file into `emojis/` under its sanitized name
 - [ ] 6. Regenerate the README: `make build`
 - [ ] 7. Audit the whole collection: `python -m slack_emojis.emoji_spec --audit`
 - [ ] 8. Confirm `git status` shows the new file *and* the README change
@@ -90,8 +90,8 @@ details and the failure catalogue: [references/slack-constraints.md](references/
 Convert, then delete the original:
 
 ```bash
-rsvg-convert -w 128 -h 128 input.svg -o Emojis/name.png
-git rm Emojis/name.svg
+rsvg-convert -w 128 -h 128 input.svg -o emojis/name.png
+git rm emojis/name.svg
 ```
 
 **Over 128 KB.** Downscale to 128x128 first; that alone usually clears it:
@@ -115,7 +115,7 @@ characters — pick a real name rather than fighting the sanitizer.
   case-sensitive, so it renders as a broken image with no local symptom.
   `rename_emoji_file()` routes through a temp name to prevent this; if you hit
   it on an existing file, fix it with two moves:
-  `git mv Emojis/X.png Emojis/tmp && git mv Emojis/tmp Emojis/x.png`.
+  `git mv emojis/X.png emojis/tmp && git mv emojis/tmp emojis/x.png`.
 - **Never hand-edit the emoji table in README.md.** It is generated. Run
   `make build` and commit the result.
 - **`get_emoji_list()` renames files as a side effect of reading them.** Just

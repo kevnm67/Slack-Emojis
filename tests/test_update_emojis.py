@@ -26,12 +26,14 @@ def test_sanitize_name_already_clean_is_unchanged():
     assert sanitize_name("already_clean") == "already_clean"
 
 
-def test_get_emoji_list_skips_subdirectories(tmp_path, monkeypatch):
-    emojis = tmp_path / "Emojis"
+def test_get_emoji_list_skips_subdirectories_and_hidden_files(tmp_path, monkeypatch):
+    emojis = tmp_path / "emojis"
     (emojis / "private").mkdir(parents=True)
     (emojis / "private" / "secret.png").write_bytes(b"")
     (emojis / "party.png").write_bytes(b"")
+    (emojis / ".DS_Store").write_bytes(b"")
     monkeypatch.setattr(update_emojis, "REPO_ROOT", tmp_path)
 
     assert update_emojis.get_emoji_list() == ["party.png"]
     assert (emojis / "private").is_dir()
+    assert (emojis / ".DS_Store").exists()
